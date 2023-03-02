@@ -2,6 +2,7 @@
 
 > conda install -c conda-forge scrapy
 
+> pip install scrapy-selenium
 
 <br>
 
@@ -36,7 +37,7 @@ From https://www.learncodewithmike.com/2020/12/python-scrapy-architecture.html
 (https://www.learncodewithmike.com/2020/12/scrapy-installation.html)
 
 1. 查看 scrapy.cfg (根目錄)
-2. 查看 settings.py
+2. 查看 settings.py，會有一些基本的設定，往後像是 chromedriver 也可以設定在此
 3. 建立一個 {SpiderName}.py >>> 必須有scrapy.Spider類
 
     > 該類包含三個資訊: name, allowed_domains, start_urls。留意裡面的 name variable，第 7 步會使用到

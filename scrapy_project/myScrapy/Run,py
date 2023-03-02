@@ -1,0 +1,14 @@
+from scrapy.crawler import CrawlerProcess
+from scrapy import spiderloader
+from scrapy.utils.project import get_project_settings
+
+settings = get_project_settings()
+process = CrawlerProcess(settings)
+spider_loader = spiderloader.SpiderLoader.from_settings(settings)
+spiders = spider_loader.list()
+print(f'** Run spiders: {spiders}**')
+
+for spider_name in spiders:
+    process.crawl(spider_loader.load(spider_name))
+
+process.start()
