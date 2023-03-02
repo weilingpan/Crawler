@@ -5,10 +5,23 @@ from scrapy.utils.project import get_project_settings
 settings = get_project_settings()
 process = CrawlerProcess(settings)
 spider_loader = spiderloader.SpiderLoader.from_settings(settings)
-spiders = spider_loader.list()
-print(f'** Run spiders: {spiders}**')
 
-for spider_name in spiders:
-    process.crawl(spider_loader.load(spider_name))
+#爬蟲依序執行: https://stackoverflow.com/questions/36109400/run-multiple-spider-sequentially
+def start_sequentially(process:CrawlerProcess, spider_names:list, dic={}):
+    deferred = process.crawl(spider_loader.load(spider_names[0]),dic=dic) #可傳遞參數
+    if len(spider_names) > 1:
+        deferred.addCallback(lambda _: start_sequentially(process, spider_names[1:]))
 
+# 執行
+# spiders = spider_loader.list()
+# print(f'** Run spiders: {spiders}**')
+# for spider_name in spiders:
+#     process.crawl(spider_loader.load(spider_name))
+# process.start()
+
+
+# 按照特定順序執行
+spider_names = ['mySpider']
+start_sequentially(process, spider_names)
 process.start()
+
